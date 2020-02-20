@@ -3,7 +3,7 @@ export default (state={pets:[], currentPage:0}, action) => {
         case 'FILL_PETS':
             return {
                 ...state,
-                pets: [...state.pets, action.payload.animals],
+                pets: [action.payload.animals],
                 currentPage: action.payload.pagination.current_page
             }
         default:
