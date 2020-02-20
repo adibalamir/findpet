@@ -39,8 +39,8 @@ class App extends Component {
             }
           })
           .then(response => {
-              console.log(accessToken);
             accessToken = response.data.access_token;
+            console.log(accessToken);
           }) 
           .catch(err => {
               console.log(err);
@@ -65,7 +65,7 @@ class App extends Component {
                 <Button onClick={() => this.fillPets(accessToken, this.props.petReducer.searchParams.type)} variant="contained" color="primary">
                     SEARCH
                 </Button>
-                
+
                 <p className='text-center'>Click to find your purrfect pet.</p>
                 <PetContainer pets={this.props.petReducer.pets[0]} />
             </div>
