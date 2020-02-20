@@ -10,7 +10,10 @@ export const fillPets = (access_token, type) => dispatch => {
         })
         .then(response => {
             console.log(response.data);
-            dispatch({type: 'FILL_PETS', payload: response.data})
+            dispatch({
+                type: 'FILL_PETS',
+                payload: response.data
+            })
         })
         .catch(err => {
             console.log(err)
