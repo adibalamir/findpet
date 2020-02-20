@@ -3,12 +3,13 @@ import { connect } from 'react-redux';
 import { simpleAction } from './actions/simpleAction';
 import { increment } from './actions/increment';
 import { decrement } from './actions/decrement';
+import { fillPets } from './actions/fillPets'
 import axios from 'axios';
 
 import './App.css';
 
 let accessToken = '';
-let allowCORS = 'https://cors-anywhere.herokuapp.com/';
+export const allowCORS = 'https://cors-anywhere.herokuapp.com/';
 
 const mapStateToProps = state => ({
     ...state
@@ -16,21 +17,22 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     simpleAction: () => dispatch(simpleAction()),
     increment: () => dispatch(increment()),
-    decrement: () => dispatch(decrement())
+    decrement: () => dispatch(decrement()),
+    fillPets: (access_token, type) => dispatch(fillPets(access_token, type))
 })
 
-function getAnimalType(type, access_token) {
-    axios({
-      url: `${allowCORS}https://api.petfinder.com/v2/animals?type=${type}`,
-      headers: {
-        'Authorization': 'Bearer '+access_token
-      },
-      method: 'get'
-    })
-    .then(response => {
-      console.log(response.data);
-    })
-}
+// function getAnimals(access_token, type) {
+//     axios({
+//       url: `${allowCORS}https://api.petfinder.com/v2/animals?${type}`,
+//       headers: {
+//         'Authorization': 'Bearer '+access_token
+//       },
+//       method: 'get'
+//     })
+//     .then(response => {
+//       return response.data;
+//     })
+// }
 
 class App extends Component {
     componentDidMount() {
@@ -47,12 +49,9 @@ class App extends Component {
             accessToken = response.data.access_token;
             console.log(accessToken);
           }) 
-          .then(res => {
-            getAnimalType('dog', accessToken);
-          })
           .catch(err => {
               console.log(err);
-          }); 
+          });
     }
 
     simpleAction = (event) => {
@@ -63,6 +62,9 @@ class App extends Component {
     }
     decrement = (event) => {
         this.props.decrement()
+    }
+    fillPets = (access_token, type) => {
+        this.props.fillPets(access_token, type)
     }
 
     render() {
@@ -78,6 +80,10 @@ class App extends Component {
                 <button onClick={this.increment}>+</button>
                 <p>{this.props.counterReducer.counter}</p>
                 <button onClick={this.decrement}>-</button>
+                
+                <div>
+                <button onClick={() => this.fillPets(accessToken, 'cat')}>Fill Pets!</button>
+                </div>
             </div>
           );
     }

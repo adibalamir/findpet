@@ -1,7 +1,10 @@
 export default (state={pets:[], currentPage:0}, action) => {
     switch (action.type) {
         case 'FILL_PETS':
-            return [...state.pets, action.payload]
+            return {
+                ...state,
+                pets: [...state.pets, action.payload.animals]
+            }
         default:
             return state;
     }
